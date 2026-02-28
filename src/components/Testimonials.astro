@@ -1,6 +1,7 @@
 ---
 import Container from "./ui/Container.astro";
 import SectionHeading from "./ui/SectionHeading.astro";
+import Button from "./ui/Button.astro";
 
 const testimonials = [
   {
@@ -36,9 +37,41 @@ const stars = Array(5).fill(0);
 <section id="testimonials" class="bg-white py-20 sm:py-28">
   <Container>
     <SectionHeading
-      title="What Our Clients Say"
-      subtitle="Real stories from real customers who trust us with their security."
+      title="Trusted Protection, Anytime, Anywhere"
+      subtitle="We combine innovation and expertise to provide seamless safety solutions tailored to your needs."
     />
+
+    <div class="reveal mb-12 text-center">
+      <Button href="#about" variant="outline">More About Us</Button>
+    </div>
+
+    <!-- Stats -->
+    <div id="stats-section" class="reveal mb-16 grid grid-cols-2 gap-6 text-center lg:grid-cols-4">
+      <div>
+        <div class="text-3xl font-bold text-accent sm:text-4xl">
+          <span class="stat-number" data-value="95">0</span><span>%</span>
+        </div>
+        <p class="mt-1 text-sm text-text-light">First-Time Installation Success</p>
+      </div>
+      <div>
+        <div class="text-3xl font-bold text-accent sm:text-4xl">
+          <span class="stat-number" data-value="5">0</span><span>K+</span>
+        </div>
+        <p class="mt-1 text-sm text-text-light">Clients Secured Across Industries</p>
+      </div>
+      <div>
+        <div class="text-3xl font-bold text-accent sm:text-4xl">
+          <span>24/7</span>
+        </div>
+        <p class="mt-1 text-sm text-text-light">Support You Can Count On</p>
+      </div>
+      <div>
+        <div class="text-3xl font-bold text-accent sm:text-4xl">
+          <span class="stat-number" data-value="98">0</span><span>%</span>
+        </div>
+        <p class="mt-1 text-sm text-text-light">Customer Satisfaction</p>
+      </div>
+    </div>
 
     <!-- Carousel -->
     <div class="reveal relative overflow-hidden" data-delay="150">
@@ -166,6 +199,41 @@ const stars = Array(5).fill(0);
     startAutoPlay();
   }
 
-  document.addEventListener("DOMContentLoaded", initCarousel);
-  document.addEventListener("astro:page-load", initCarousel);
+  function initStats() {
+    const section = document.getElementById("stats-section");
+    if (!section) return;
+    const numbers = section.querySelectorAll<HTMLElement>(".stat-number");
+    let animated = false;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) {
+      numbers.forEach((el) => { el.textContent = el.dataset.value || "0"; });
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !animated) {
+          animated = true;
+          numbers.forEach((el) => {
+            const target = parseInt(el.dataset.value || "0", 10);
+            const duration = 2000;
+            const start = performance.now();
+            function update(now: number) {
+              const elapsed = now - start;
+              const progress = Math.min(elapsed / duration, 1);
+              const eased = 1 - Math.pow(1 - progress, 3);
+              el.textContent = Math.floor(eased * target).toString();
+              if (progress < 1) requestAnimationFrame(update);
+              else el.textContent = target.toString();
+            }
+            requestAnimationFrame(update);
+          });
+          observer.unobserve(section);
+        }
+      });
+    }, { threshold: 0.3 });
+    observer.observe(section);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => { initCarousel(); initStats(); });
+  document.addEventListener("astro:page-load", () => { initCarousel(); initStats(); });
 </script>
