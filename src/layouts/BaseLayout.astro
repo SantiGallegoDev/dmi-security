@@ -37,6 +37,8 @@ const { title, description, theme = "light" } = Astro.props;
       }}
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content={theme === "dark" ? "#0B0B0F" : "#FFFFFF"} />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   </head>
   <body data-theme={theme}>
     <a href="#main-content" class="skip-to-content">Skip to content</a>
