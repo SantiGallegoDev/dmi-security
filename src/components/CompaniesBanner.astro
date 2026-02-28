@@ -1,0 +1,88 @@
+---
+const companies = [
+  { name: "DSC", src: "/images/companies/dsc.png", tall: true },
+  { name: "Aiphone", src: "/images/companies/aiphone.png" },
+  { name: "Moni", src: "/images/companies/moni.png" },
+  { name: "Suprema", src: null },
+  { name: "LTS Security", src: "/images/companies/lts.png", tall: true },
+  { name: "EverFocus", src: "/images/companies/everfocus.png", small: true },
+  { name: "GE Security", src: "/images/companies/ge-security.png" },
+  { name: "Honeywell", src: "/images/companies/honeywell.png" },
+  { name: "Hikvision", src: "/images/companies/hikvision.png" },
+];
+---
+
+<section id="banner-section" class="overflow-hidden border-y border-gray-200 bg-gray-50 py-10">
+  <p class="mb-8 text-center text-sm font-medium uppercase tracking-wider text-text-light">
+    Trusted brands we work with
+  </p>
+  <div id="banner-track" class="banner-scroll flex w-max items-center gap-20">
+    {
+      [...companies, ...companies].map((company) => (
+        <div class="banner-item flex-shrink-0 grayscale opacity-40 transition-all duration-500 hover:opacity-100 hover:grayscale-0 hover:scale-110">
+          {company.src ? (
+            <img
+              src={company.src}
+              alt={company.name}
+              class:list={["w-auto object-contain", company.tall ? "h-16 sm:h-20" : company.small ? "h-7 sm:h-8" : "h-10 sm:h-12"]}
+              loading="lazy"
+            />
+          ) : (
+            <span class="text-lg font-bold tracking-tight text-gray-700 sm:text-xl whitespace-nowrap">
+              {company.name}
+            </span>
+          )}
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  function initBannerHighlight() {
+    const section = document.getElementById("banner-section");
+    const track = document.getElementById("banner-track");
+    if (!section || !track) return;
+
+    const items = track.querySelectorAll<HTMLElement>(".banner-item");
+    if (!items.length) return;
+
+    function updateCenter() {
+      const sectionRect = section!.getBoundingClientRect();
+      const centerX = sectionRect.left + sectionRect.width / 2;
+
+      let closestItem: HTMLElement | null = null;
+      let closestDist = Infinity;
+
+      items.forEach((item) => {
+        const rect = item.getBoundingClientRect();
+        const itemCenter = rect.left + rect.width / 2;
+        const dist = Math.abs(itemCenter - centerX);
+
+        if (dist < closestDist) {
+          closestDist = dist;
+          closestItem = item;
+        }
+      });
+
+      items.forEach((item) => {
+        if (item === closestItem) {
+          item.classList.remove("grayscale", "opacity-40");
+          item.classList.add("opacity-100", "scale-110");
+        } else {
+          if (!item.matches(":hover")) {
+            item.classList.add("grayscale", "opacity-40");
+            item.classList.remove("opacity-100", "scale-110");
+          }
+        }
+      });
+
+      requestAnimationFrame(updateCenter);
+    }
+
+    requestAnimationFrame(updateCenter);
+  }
+
+  document.addEventListener("DOMContentLoaded", initBannerHighlight);
+  document.addEventListener("astro:page-load", initBannerHighlight);
+</script>

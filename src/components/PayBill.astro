@@ -1,0 +1,54 @@
+---
+import Container from "./ui/Container.astro";
+import Button from "./ui/Button.astro";
+---
+
+<section id="pay-bill" class="bg-white py-20 sm:py-28">
+  <Container>
+    <div class="reveal grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+      <!-- Image -->
+      <div class="overflow-hidden rounded-2xl shadow-lg">
+        <img
+          src="/images/sections/smart-home.jpg"
+          alt="Secure online payment"
+          class="w-full h-[350px] object-cover"
+          loading="lazy"
+        />
+      </div>
+
+      <!-- Content -->
+      <div class="text-center lg:text-left">
+        <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-accent-light lg:mx-0">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+          </svg>
+        </div>
+
+        <h2 class="text-3xl font-bold tracking-tight text-dark sm:text-4xl lg:text-5xl">
+          Pay Your Bill <span class="text-accent">Online</span>
+        </h2>
+
+        <p class="mt-6 text-lg text-text-light leading-relaxed">
+          Manage your payments quickly, securely, and conveniently. Click below to
+          access our secure payment portal and pay your bill in just a few simple
+          steps.
+        </p>
+
+        <div class="mt-8">
+          <Button
+            href="https://secure.usaepay.com/interface/epayform/RpOggV6Z0D30jNAF2zjHr45SYWVD6hN2/"
+            variant="primary"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-base !px-8 !py-3.5"
+          >
+            Pay Now
+            <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+            </svg>
+          </Button>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>

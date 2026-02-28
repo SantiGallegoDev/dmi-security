@@ -1,0 +1,136 @@
+---
+import Container from "./ui/Container.astro";
+import Button from "./ui/Button.astro";
+
+const links = [
+  { label: "About", href: "#about" },
+  { label: "Services", href: "#services" },
+  { label: "Testimonials", href: "#testimonials" },
+  { label: "FAQs", href: "#faqs" },
+  { label: "Pay Bill", href: "#pay-bill" },
+  { label: "Contact", href: "#contact" },
+];
+---
+
+<nav
+  id="navbar"
+  class="fixed top-0 left-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-gray-200/50 transition-all duration-300"
+>
+  <Container class="flex items-center justify-between py-3">
+    <a href="#" class="flex items-center gap-2">
+      <img src="/images/logo.png" alt="DMI Security Systems" class="h-12 w-auto" />
+    </a>
+
+    <!-- Desktop links -->
+    <div class="hidden items-center gap-7 lg:flex">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            class="text-sm font-medium text-text transition-colors hover:text-accent"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <Button href="#contact" variant="primary" class="!py-2.5 !px-6 !text-sm">
+        Let's Talk
+      </Button>
+    </div>
+
+    <!-- Mobile hamburger -->
+    <button
+      id="mobile-menu-btn"
+      class="flex flex-col gap-1.5 lg:hidden"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+    >
+      <span class="hamburger-line block h-0.5 w-6 bg-dark transition-all duration-300"></span>
+      <span class="hamburger-line block h-0.5 w-6 bg-dark transition-all duration-300"></span>
+      <span class="hamburger-line block h-0.5 w-6 bg-dark transition-all duration-300"></span>
+    </button>
+  </Container>
+
+  <!-- Mobile menu panel -->
+  <div
+    id="mobile-menu"
+    class="max-h-0 overflow-hidden transition-all duration-300 lg:hidden"
+  >
+    <div class="border-t border-gray-200 bg-white px-4 py-4">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            class="mobile-link block py-3 text-sm font-medium text-text transition-colors hover:text-accent"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <Button href="#contact" variant="primary" class="mt-4 w-full !text-sm">
+        Let's Talk
+      </Button>
+    </div>
+  </div>
+</nav>
+
+<script>
+  function initNavbar() {
+    const navbar = document.getElementById("navbar");
+    const menuBtn = document.getElementById("mobile-menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    if (!navbar || !menuBtn || !mobileMenu) return;
+
+    // Scroll effect
+    const onScroll = () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add("shadow-sm");
+      } else {
+        navbar.classList.remove("shadow-sm");
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    // Mobile toggle
+    let isOpen = false;
+    menuBtn.addEventListener("click", () => {
+      isOpen = !isOpen;
+      menuBtn.setAttribute("aria-expanded", String(isOpen));
+
+      if (isOpen) {
+        mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+      } else {
+        mobileMenu.style.maxHeight = "0px";
+      }
+
+      const lines = menuBtn.querySelectorAll(".hamburger-line");
+      if (isOpen) {
+        lines[0].classList.add("translate-y-2", "rotate-45");
+        lines[1].classList.add("opacity-0");
+        lines[2].classList.add("-translate-y-2", "-rotate-45");
+      } else {
+        lines[0].classList.remove("translate-y-2", "rotate-45");
+        lines[1].classList.remove("opacity-0");
+        lines[2].classList.remove("-translate-y-2", "-rotate-45");
+      }
+    });
+
+    // Close menu on link click
+    mobileMenu.querySelectorAll(".mobile-link").forEach((link) => {
+      link.addEventListener("click", () => {
+        isOpen = false;
+        menuBtn.setAttribute("aria-expanded", "false");
+        mobileMenu.style.maxHeight = "0px";
+        const lines = menuBtn.querySelectorAll(".hamburger-line");
+        lines[0].classList.remove("translate-y-2", "rotate-45");
+        lines[1].classList.remove("opacity-0");
+        lines[2].classList.remove("-translate-y-2", "-rotate-45");
+      });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", initNavbar);
+  document.addEventListener("astro:page-load", initNavbar);
+</script>

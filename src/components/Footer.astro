@@ -1,0 +1,117 @@
+---
+import Container from "./ui/Container.astro";
+
+const quickLinks = [
+  { label: "About", href: "#about" },
+  { label: "Services", href: "#services" },
+  { label: "Testimonials", href: "#testimonials" },
+  { label: "FAQs", href: "#faqs" },
+  { label: "Pay Bill", href: "#pay-bill" },
+  { label: "Contact", href: "#contact" },
+];
+
+const services = [
+  "Video Surveillance",
+  "Access Control",
+  "Alarm Monitoring",
+  "Fire Detection",
+  "Intrusion Detection",
+  "System Integration",
+];
+---
+
+<footer class="bg-bg-dark pt-16 pb-8">
+  <Container>
+    <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      <!-- Brand -->
+      <div>
+        <a href="#" class="text-xl font-bold tracking-tight text-white">
+          <span class="text-accent">DMI</span> Security
+        </a>
+        <p class="mt-4 text-sm text-gray-400 leading-relaxed">
+          Your trusted partner in modern security systems. Protecting homes,
+          businesses, and communities with reliable, innovative solutions.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h4 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-400">
+          Quick Links
+        </h4>
+        <ul class="space-y-3">
+          {
+            quickLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="text-sm text-gray-400 transition-colors hover:text-white"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Services -->
+      <div>
+        <h4 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-400">
+          Services
+        </h4>
+        <ul class="space-y-3">
+          {
+            services.map((service) => (
+              <li>
+                <span class="text-sm text-gray-400">{service}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h4 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-400">
+          Contact
+        </h4>
+        <ul class="space-y-3">
+          <li>
+            <a
+              href="mailto:info@dmisecurity.com"
+              class="text-sm text-gray-400 transition-colors hover:text-white"
+            >
+              info@dmisecurity.com
+            </a>
+          </li>
+          <li>
+            <a
+              href="tel:+18003649049"
+              class="text-sm text-gray-400 transition-colors hover:text-white"
+            >
+              (800) 364-9049
+            </a>
+          </li>
+          <li>
+            <span class="text-sm text-gray-400">
+              PO Box 788, Bound Brook, NJ 08805
+            </span>
+          </li>
+          <li>
+            <span class="text-sm text-gray-400">
+              Mon–Fri, 8AM–5PM
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Separator -->
+    <div class="mt-12 border-t border-gray-700/50 pt-8">
+      <p class="text-center text-sm text-gray-500">
+        &copy; 2026 DMI Security Systems. All Rights Reserved. By Parzik &hearts;
+      </p>
+    </div>
+  </Container>
+</footer>

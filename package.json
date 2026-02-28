@@ -1,5 +1,5 @@
 {
-  "name": "absolute-antimatter",
+  "name": "dmi-security",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -9,6 +9,10 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.17.1"
+    "@fontsource/inter": "^5.2.8",
+    "@tailwindcss/vite": "^4.2.1",
+    "astro": "^5.17.1",
+    "astro-seo": "^1.1.0",
+    "tailwindcss": "^4.2.1"
   }
 }

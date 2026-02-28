@@ -1,0 +1,98 @@
+---
+import Container from "./ui/Container.astro";
+
+const stats = [
+  { value: 95, suffix: "%", label: "Customer Satisfaction" },
+  { value: 5, suffix: "K+", label: "Systems Installed" },
+  { value: 24, suffix: "/7", label: "Monitoring & Support" },
+  { value: 98, suffix: "%", label: "Uptime Guarantee" },
+];
+---
+
+<section class="relative overflow-hidden bg-accent py-16 sm:py-20">
+  <!-- Background image -->
+  <div class="absolute inset-0 z-0">
+    <img src="/images/sections/server-room.jpg" alt="" class="h-full w-full object-cover opacity-20" loading="lazy" />
+  </div>
+
+  <Container class="relative z-10">
+    <div
+      id="stats-section"
+      class="grid grid-cols-2 gap-8 text-center lg:grid-cols-4"
+    >
+      {
+        stats.map((stat) => (
+          <div>
+            <div class="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+              <span class="stat-number" data-value={stat.value}>
+                0
+              </span>
+              <span>{stat.suffix}</span>
+            </div>
+            <p class="mt-2 text-sm font-medium text-white/80 sm:text-base">
+              {stat.label}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </Container>
+</section>
+
+<script>
+  function initStats() {
+    const section = document.getElementById("stats-section");
+    if (!section) return;
+
+    const numbers = section.querySelectorAll<HTMLElement>(".stat-number");
+    let animated = false;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (prefersReducedMotion) {
+      numbers.forEach((el) => {
+        el.textContent = el.dataset.value || "0";
+      });
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !animated) {
+            animated = true;
+            numbers.forEach((el) => {
+              const target = parseInt(el.dataset.value || "0", 10);
+              const duration = 2000;
+              const start = performance.now();
+
+              function update(now: number) {
+                const elapsed = now - start;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                el.textContent = Math.floor(eased * target).toString();
+
+                if (progress < 1) {
+                  requestAnimationFrame(update);
+                } else {
+                  el.textContent = target.toString();
+                }
+              }
+
+              requestAnimationFrame(update);
+            });
+            observer.unobserve(section);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(section);
+  }
+
+  document.addEventListener("DOMContentLoaded", initStats);
+  document.addEventListener("astro:page-load", initStats);
+</script>
